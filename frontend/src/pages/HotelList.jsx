@@ -27,6 +27,28 @@ function HotelList() {
     const [page, setPage] = useState(1);
 
     const handleApplyFilter = () => {
+        const min = Number(minPrice);
+        const max = Number(maxPrice);
+
+        if (minPrice !== "" && (!Number.isFinite(min) || min < 0)) {
+            alert("Enter a valid minimum price");
+            return;
+        }
+
+        if (maxPrice !== "" && (!Number.isFinite(max) || max < 0)) {
+            alert("Enter a valid maximum price");
+            return;
+        }
+
+        if (
+            minPrice !== "" &&
+            maxPrice !== "" &&
+            min > max
+        ) {
+            alert("Minimum price cannot be greater than maximum price");
+            return;
+        }
+
         setAppliedMinPrice(minPrice);
         setAppliedMaxPrice(maxPrice);
         setPage(1);
@@ -88,7 +110,7 @@ function HotelList() {
 
             <div className="page-heading">
                 <h1>Explore Hotels</h1>
-                <p>Find the perfect place for your next stay.</p>
+                <p>Find perfect place for the next plan</p>
             </div>
 
             <div className="search-section">
@@ -105,12 +127,13 @@ function HotelList() {
 
             <div className="hotel-container">
 
-                {/* Price filter */}
                 <div className="filter-section">
                     <h3>Price Range</h3>
 
                     <input
                         type="number"
+                        min="0"
+                        step="0.01"
                         placeholder="Minimum price"
                         value={minPrice}
                         onChange={(e) => setMinPrice(e.target.value)}
@@ -118,6 +141,8 @@ function HotelList() {
 
                     <input
                         type="number"
+                        min="0"
+                        step="0.01"
                         placeholder="Maximum price"
                         value={maxPrice}
                         onChange={(e) => setMaxPrice(e.target.value)}
@@ -131,7 +156,7 @@ function HotelList() {
                     </button>
                 </div>
 
-                {/* Hotel cards */}
+
                 <div className="hotel-list">
                     {hotels.length === 0 ? (
                         <p>No hotels found.</p>
