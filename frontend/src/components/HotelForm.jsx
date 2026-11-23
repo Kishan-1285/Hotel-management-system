@@ -4,6 +4,7 @@ import "../styles/hotelForm.css";
 import { useDispatch } from "react-redux";
 import { fetchHotels } from "../features/hotels/hotelSlice";
 import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 function HotelForm({ hotel }) {
 
@@ -64,6 +65,14 @@ function HotelForm({ hotel }) {
 
     return (
         <>
+            <Helmet>
+                <title>{hotel ? "Edit Hotel" : "Add Hotel"} | StayFinder</title>
+
+                <meta
+                    name="description"
+                    content={hotel ? "Edit hotel details." : "Add a new hotel to StayFinder."}
+                />
+            </Helmet>
             <form className="hotel-form-container" onSubmit={handleSubmit}>
                 <h2>{hotel ? "Edit Hotel" : "Add Hotel"}</h2>
 

@@ -2,15 +2,19 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { fetchHotels } from "../features/hotels/hotelSlice";
-import "../styles/hotelList.css";
 import API from "../services/HotelApi";
+import HotelCard from "../components/HotelCard";
+import Pagination from "../components/Pagination";
+import "../styles/hotelList.css";
+
+import { Helmet } from "react-helmet-async";
+
 function HotelList() {
 
     const dispatch = useDispatch();
     const { hotels, loading, pagination, error } = useSelector(
         (state) => state.hotels
     );
-
     const [search, setSearch] = useState("");
     const [minPrice, setMinPrice] = useState("");
     const [maxPrice, setMaxPrice] = useState("");
@@ -65,6 +69,13 @@ function HotelList() {
 
     return (
         <div className="hotel-page">
+            <Helmet>
+                <title>Explore Hotels | Hotel finder</title>
+                <meta
+                    name="description"
+                    content="Find the perfect hotel for your next stay."
+                />
+            </Helmet>
 
             <div className="page-heading">
                 <h1>Explore Hotels</h1>
@@ -114,51 +125,22 @@ function HotelList() {
 
                     {hotels.length === 0 ? (
                         <p>No hotels found.</p>
-                    ) : (
-                        hotels.map((hotel) => (
-                            <div className="hotel-card" key={hotel.id}>
-
-                                <img
-                                    src={`http://localhost:4000${hotel.image}`}
-                                    alt={hotel.title}
-                                />
-
-                                <div className="hotel-info">
-                                    <h2>{hotel.title}</h2>
-                                    <p>{hotel.description}</p>
-                                    <h3>₹{hotel.price}</h3>
-                                    <div className="hotel-actions">
-                                        <button onClick={() => navigate(`/hotels/edit/${hotel.id}`)}>
-                                            Edit
-                                        </button>
-                                        <button onClick={() => handleDelete(hotel.id)}>
-                                            Delete
-                                        </button>
-                                    </div>
-                                </div>
-
-                            </div>
-                        ))
-                    )}
+                    ) : hotels.map((hotel) => (
+                        <HotelCard
+                            key={hotel.id}
+                            hotel={hotel}
+                            onView={() => navigate(`/hotels/${hotel.id}`)}
+                            onEdit={() => navigate(`/hotels/edit/${hotel.id}`)}
+                            onDelete={() => handleDelete(hotel.id)}
+                        />
+                    ))}
                     <div className="pagination">
 
-                        <button
-                            onClick={() => setPage(page - 1)}
-                            disabled={page === 1}
-                        >
-                            Previous
-                        </button>
-
-                        <span>
-                            Page {pagination.page || 1} of {pagination.totalPages || 1}
-                        </span>
-
-                        <button
-                            onClick={() => setPage(page + 1)}
-                            disabled={page >= (pagination.totalPages || 1)}
-                        >
-                            Next
-                        </button>
+                        <Pagination
+                            page={page}
+                            totalPages={pagination.totalPages}
+                            onPageChange={setPage}
+                        />
 
                     </div>
                 </div>
