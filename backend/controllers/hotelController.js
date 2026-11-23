@@ -4,20 +4,10 @@ const path = require("path");
 
 const getHotels = async (req, res) => {
     try {
-        const {
-            search = "",
-            minPrice,
-            maxPrice,
-            page = 1,
-            limit = 6
-        } = req.query;
+        const { search = "", minPrice, maxPrice, page = 1, limit = 6 } = req.query;
 
         const pageNumber = Math.max(parseInt(page) || 1, 1);
-        const limitNumber = Math.min(
-            Math.max(parseInt(limit) || 6, 1),
-            50
-        );
-
+        const limitNumber = Math.min(Math.max(parseInt(limit) || 6, 1), 50);
         const offset = (pageNumber - 1) * limitNumber;
 
         const conditions = [];
@@ -28,84 +18,70 @@ const getHotels = async (req, res) => {
             conditions.push(`title ILIKE $${values.length}`);
         }
 
-        if (minPrice !== undefined && minPrice !== "") {
-            const price = Number(minPrice);
+        const min = minPrice === "" || minPrice === undefined
+            ? null : Number(minPrice);
 
-            if (!Number.isFinite(price) || price < 0) {
-                return res.status(400).json({
-                    message: "Invalid minimum price"
-                });
-            }
+        const max = maxPrice === "" || maxPrice === undefined
+            ? null : Number(maxPrice);
 
-            values.push(price);
-            conditions.push(`price >= $${values.length}`);
+        if (min !== null && (!Number.isFinite(min) || min < 0)) {
+            return res.status(400).json({ message: "Invalid minimum price" });
         }
 
-        if (maxPrice !== undefined && maxPrice !== "") {
-            const price = Number(maxPrice);
-
-            if (!Number.isFinite(price) || price < 0) {
-                return res.status(400).json({
-                    message: "Invalid maximum price"
-                });
-            }
-
-            values.push(price);
-            conditions.push(`price <= $${values.length}`);
+        if (max !== null && (!Number.isFinite(max) || max < 0)) {
+            return res.status(400).json({ message: "Invalid maximum price" });
         }
 
-        if (
-            minPrice !== undefined &&
-            minPrice !== "" &&
-            maxPrice !== undefined &&
-            maxPrice !== "" &&
-            Number(minPrice) > Number(maxPrice)
-        ) {
+        if (min !== null && max !== null && min > max) {
             return res.status(400).json({
                 message: "Minimum price cannot exceed maximum price"
             });
         }
 
-        const whereClause = conditions.length
+        if (min !== null) {
+            values.push(min);
+            conditions.push(`price >= $${values.length}`);
+        }
+
+        if (max !== null) {
+            values.push(max);
+            conditions.push(`price <= $${values.length}`);
+        }
+
+        const where = conditions.length
             ? `WHERE ${conditions.join(" AND ")}`
             : "";
 
-        const countResult = await pool.query(
-            `SELECT COUNT(*) FROM hotels ${whereClause}`,
+        const count = await pool.query(
+            `SELECT COUNT(*) FROM hotels ${where}`,
             values
         );
 
-        const hotelValues = [...values, limitNumber, offset];
-
         const result = await pool.query(
             `SELECT * FROM hotels
-       ${whereClause}
-       ORDER BY created_at DESC
-       LIMIT $${hotelValues.length - 1}
-       OFFSET $${hotelValues.length}`,
-            hotelValues
+             ${where}
+             ORDER BY created_at DESC
+             LIMIT $${values.length + 1}
+             OFFSET $${values.length + 2}`,
+            [...values, limitNumber, offset]
         );
-
-        const total = Number(countResult.rows[0].count);
 
         res.status(200).json({
             hotels: result.rows,
             pagination: {
-                total,
+                total: Number(count.rows[0].count),
                 page: pageNumber,
                 limit: limitNumber,
-                totalPages: Math.ceil(total / limitNumber)
+                totalPages: Math.ceil(Number(count.rows[0].count) / limitNumber)
             }
         });
 
     } catch (error) {
-        console.error("Get hotels error:", error.message);
-
-        res.status(500).json({
-            message: "Failed to fetch hotels"
-        });
+        console.error(error.message);
+        res.status(500).json({ message: "Failed to fetch hotels" });
     }
 };
+
 
 const getHotel = async (req, res) => {
   try {
@@ -293,7 +269,6 @@ const deleteHotel = async (req, res) => {
   try {
     const { id } = req.params;
 
-    // Find the hotel
     const result = await pool.query(
       "SELECT * FROM hotels WHERE id = $1",
       [id]
@@ -307,13 +282,11 @@ const deleteHotel = async (req, res) => {
 
     const hotel = result.rows[0];
 
-    // Delete hotel from database
     await pool.query(
       "DELETE FROM hotels WHERE id = $1",
       [id]
     );
 
-    // Delete the image from uploads folder
     if (hotel.image) {
       const imagePath = path.join(
         __dirname,
