@@ -1,3 +1,5 @@
+import "../styles/HotelCard.css";
+
 function HotelCard({ hotel, onDelete, onEdit, onView }) {
     return (
         <div
@@ -14,7 +16,7 @@ function HotelCard({ hotel, onDelete, onEdit, onView }) {
                 <p>{hotel.description}</p>
                 <h3>₹{hotel.price}</h3>
 
-                <div className="hotel-actions">
+                <div className="edit-del">
                     <button onClick={(e) => {
                         e.stopPropagation();
                         onEdit();

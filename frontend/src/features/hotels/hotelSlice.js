@@ -2,14 +2,14 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import API from "../../services/HotelApi";
 
 export const fetchHotels = createAsyncThunk(
-    "hotels/fetchHotels",
-    async (filters) => {
-        const response = await API.get("/", {
-            params: filters
-        });
+  "hotels/fetchHotels",
+  async (filters) => {
+    const response = await API.get("/", {
+      params: filters
+    });
 
-        return response.data;
-    }
+    return response.data;
+  }
 );
 
 const initialState = {

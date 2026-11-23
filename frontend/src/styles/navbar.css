@@ -32,3 +32,21 @@
   border-radius: 6px;
   cursor: pointer;
 }
+
+@media (max-width: 600px) {
+    .navbar {
+        padding: 15px;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .logo {
+        font-size: 22px;
+    }
+
+    .nav-links {
+        gap: 15px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}

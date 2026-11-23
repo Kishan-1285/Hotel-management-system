@@ -1,0 +1,63 @@
+.hotel-card {
+    display: flex;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.hotel-card img {
+    width: 40%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.hotel-info {
+    padding: 15px;
+    flex: 1;
+}
+
+.hotel-info h2 {
+    margin-bottom: 10px;
+}
+
+.hotel-info p {
+    margin-bottom: 10px;
+    color: #555;
+}
+
+.hotel-info h3 {
+    color: #2563eb;
+    margin-bottom: 10px;
+}
+
+.edit-del {
+    display: flex;
+    gap: 10px;
+}
+
+.edit-del button {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #2563eb;
+    color: white;
+}
+
+.edit-del button:last-child {
+    background-color: #dc2626;
+}
+
+
+@media (max-width: 600px) {
+    .hotel-card {
+        flex-direction: column;
+    }
+
+    .hotel-card img {
+        width: 100%;
+        height: 180px;
+    }
+}

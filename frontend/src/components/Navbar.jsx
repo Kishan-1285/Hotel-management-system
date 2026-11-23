@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 const Navbar = () => {
     return (
         <nav className="navbar">
-            <h2 className="logo">Hotel Details</h2>
+            <h2 className="logo">Hotel Booking System</h2>
 
             <div className="nav-links">
                 <a href="/">Home</a>
