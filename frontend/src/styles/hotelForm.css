@@ -1,0 +1,68 @@
+
+.hotel-form-container {
+    width: 500px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.hotel-form-container h2 {
+    margin-bottom: 20px;
+    color: #1e40af;
+}
+
+.hotel-form-container label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.hotel-form-container input,
+.hotel-form-container textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.hotel-form-container textarea {
+    height: 100px;
+}
+
+.hotel-form-container button {
+    padding: 10px 20px;
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.hotel-form-container img {
+    width: 200px;
+    margin-bottom: 15px;
+}
+
+@media (max-width: 600px) {
+    .hotel-form-container {
+        width: 90%;
+    }
+}
+.hotel-form-container img {
+    width: 150px;
+    height: 100px;
+    object-fit: cover;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.remove-image-btn {
+    padding: 5px 10px !important;
+    font-size: 12px;
+    background-color: #fee2e2 !important;
+    color: #dc2626 !important;
+    margin-bottom: 15px;
+}
