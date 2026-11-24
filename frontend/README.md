@@ -1,19 +1,90 @@
-# React + Vite
+# Hotel Management System
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+About the Project
 
-Currently, two official plugins are available:
+This is a Hotel Management System developed using React.js, Node.js, Express.js and PostgreSQL.
+In this project, users can add new hotels, view hotel details, edit and delete hotels. Users can also search hotels by name and filter them based on price.
+I have also added image upload and map features to show the hotel location using latitude and longitude.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
-## React Compiler
+--- Technologies Used
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+// Frontend:
+- React.js
+- Redux Toolkit
+- React Router
+- Axios
+- CSS
+- React Leaflet
+- React Helmet Async
 
-Note: This will impact Vite dev & build performances.
-You can also try [the experimental native React Compiler support in plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md#rust-react-compiler) by using `compiler: true` in the plugin options instead of using the Babel plugin.
+// Backend:
+- Node.js
+- Express.js
+- PostgreSQL
+- Multer
 
-## Expanding the Oxlint configuration
+--- Features
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+- Add new hotel details.
+- Upload hotel images and preview them before adding.
+- View all hotels in card format.
+- Search hotels by title.
+- Filter hotels using minimum and maximum price.
+- Pagination to view hotels page by page.
+- View complete hotel details.
+- Show hotel location on the map.
+- Edit existing hotel details.
+- Delete hotel details.
+- Responsive design for different screen sizes.
+- Dynamic page title and meta description.
+
+-- What I Learned
+
+While doing this project, I learned many new concepts and got some practical experience.
+
+- Learned how to use Multer for uploading images and storing them in the backend.
+- Learned some concepts of Redux Toolkit, mainly how to manage state and fetch data using createAsyncThunk.
+- Got experience in connecting PostgreSQL with Node.js and performing database operations.
+- Understood how backend routes and controllers are used to handle different requests.
+- Learned how to connect frontend and backend using Axios.
+- Learned how to use React Helmet Async for changing page titles and meta descriptions.
+- Got some experience with React Leaflet for showing hotel locations on a map.
+
+--- Project Setup
+
+//  Backend
+
+Go to the backend folder:
+
+```bash
+cd backend
+npm install
+```
+
+Create a `.env` file and add the required PostgreSQL database details.
+
+Start the backend server:
+
+
+```bash
+npm run dev
+```
+
+// Frontend
+
+Open another terminal and go to the frontend folder:
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Open the local URL shown in the terminal to use the application.
+
+//  GitHub Repository:
+
+https://github.com/Kishan-1285/Hotel-management-system
+
+
